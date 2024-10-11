@@ -24,5 +24,5 @@ for (person, date, score) in matches:
 writer = csv.writer(sys.stdout)
 for (person, date, score) in matches:
     if rows_per_person[person] > 2:
-        writer.writerow([person, date, score])
+        writer.writerow([person, date, int(score)])
 
