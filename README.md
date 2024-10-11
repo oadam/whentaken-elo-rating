@@ -1,4 +1,5 @@
 # elo rating system for whentaken
 
-* copy your chat logs in a `whentaken.log`
-* `cat whentaken.log | ./convert.py | ./elo.py`
+    echo '<all your recent chat logs>' | ./convert.py | tee new-lines.csv
+    # add all converted lines to online backup and pull the whole lines.csv
+    ./elo.py < lines.csv |tee result.csv
