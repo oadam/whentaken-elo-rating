@@ -25,16 +25,16 @@ for i in range(1, len(lines) - 1):
         continue
     score_match = score_pattern.match(lines[i+1])
     if not score_match:
-        print(f'could not match : {lines[i+1]}')
+        print(f'could not match : {lines[i+1]}', file=sys.stderr)
         continue
     j = i - 1
-    while j >= 0 and j > i - 6:
+    while j >= 0 and j > i - 8:
         if person_pattern.match(lines[j]):
             person = lines[j]
             break
         j -= 1
     else:
-        print(f'could not match personne for : {score_match[0]}')
+        print(f'could not match personne for : {score_match[0]}', file=sys.stderr)
         continue
     writer.writerow([person, date_match[1], score_match[1]])
 
