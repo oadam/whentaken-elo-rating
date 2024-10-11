@@ -14,12 +14,17 @@ writer = csv.writer(sys.stdout)
 
 all_persons = set()
 results_per_date = defaultdict(lambda:[])
+results_per_person = defaultdict(lambda:0)
 for person, date_string, score in set((x[0], x[1], x[2]) for x in reader):
     results_per_date[datetime.strptime(date_string, "%d.%m.%Y")].append((person, score))
-    all_persons.add(person)
+    results_per_person[person] += 1
 
-all_persons = list(all_persons)
+all_persons = [p for p,times in results_per_person.items() if times > 2]
 all_persons.sort()
+if not all_persons:
+    print('no player played more than twice')
+    exit(-1)
+
 
 writer.writerow(['date'] + all_persons)
 

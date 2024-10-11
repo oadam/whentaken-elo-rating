@@ -8,21 +8,33 @@ from collections import defaultdict
 olivier
    15:22
 hyper difficile
+15:22
 #WhenTaken #212 (26.09.2024)
 I scored 724/1000 :tada:
 '''
 
-pattern = re.compile(r"(\w+.*)\n[^\n]*\n([^\n]+\n){0,2}[^\n]*#WhenTaken.*\((\d{2}\.\d{2}\.\d{4})\)\nI scored (\d+)/1000", re.MULTILINE)
-
-lines = sys.stdin.read()
-matches = pattern.findall(lines)
-
-rows_per_person = defaultdict(lambda:0)
-for (person, _, date, score) in matches:
-    rows_per_person[person]+=1
-
 writer = csv.writer(sys.stdout)
-for (person, _, date, score) in matches:
-    if rows_per_person[person] > 2:
-        writer.writerow([person, date, int(score)])
+
+lines = sys.stdin.read().split('\n')
+person_pattern = re.compile(r"^[a-z]+$")
+date_pattern = re.compile(r"#WhenTaken.*\((\d{2}\.\d{2}\.\d{4})\)")
+score_pattern = re.compile(r"I scored (\d+)/1000")
+for i in range(1, len(lines) - 1):
+    date_match = date_pattern.match(lines[i])
+    if not date_match:
+        continue
+    score_match = score_pattern.match(lines[i+1])
+    if not score_match:
+        print(f'could not match : {lines[i+1]}')
+        continue
+    j = i - 1
+    while j >= 0 and j > i - 6:
+        if person_pattern.match(lines[j]):
+            person = lines[j]
+            break
+        j -= 1
+    else:
+        print(f'could not match personne for : {score_match[0]}')
+        continue
+    writer.writerow([person, date_match[1], score_match[1]])
 
