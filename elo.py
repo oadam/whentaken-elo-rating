@@ -26,4 +26,4 @@ for _, results in results_per_date.items():
 result = list(elos.items())
 result.sort(key = lambda x:-x[1])
 for player, rating in result:
-    print(f'{player}\t{rating}')
+    print(f'{player}\t{rating:.0f}')
