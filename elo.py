@@ -27,10 +27,13 @@ sorted_result = list(results_per_date.items())
 sorted_result.sort(key=lambda x:x[0])
 
 for d, results in sorted_result:
+    increments = defaultdict(lambda:0)
     for ((a, score_a), (b, score_b)) in combinations(results, 2):
         expected = 1 / (1 + pow(10, (elos[b] - elos[a]) / 400))
         error = (1 if score_a > score_b else 0) - expected
         increment = k_factor * error
-        elos[a] += increment
-        elos[b] -= increment
+        increments[a] += increment
+        increments[b] -= increment
+    for player, increment in increments.items():
+        elos[player] += increment
     writer.writerow([d.strftime("%d/%m/%Y")] + [int(elos[p]) for p in all_persons])
