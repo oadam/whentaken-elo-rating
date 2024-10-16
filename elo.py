@@ -15,7 +15,7 @@ writer = csv.writer(sys.stdout)
 all_persons = set()
 results_per_date = defaultdict(lambda:[])
 results_per_person = defaultdict(lambda:0)
-for person, date_string, score in set((x[0], x[1], x[2]) for x in reader):
+for date_string, person, score in set((x[0], x[1], x[2]) for x in reader):
     results_per_date[datetime.strptime(date_string, "%d.%m.%Y")].append((person, score))
     results_per_person[person] += 1
 

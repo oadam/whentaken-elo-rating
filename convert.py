@@ -36,5 +36,5 @@ for i in range(1, len(lines) - 1):
     else:
         print(f'could not match personne for : {score_match[0]}', file=sys.stderr)
         continue
-    writer.writerow([person, date_match[1], score_match[1]])
+    writer.writerow([date_match[1], person, score_match[1]])
 
